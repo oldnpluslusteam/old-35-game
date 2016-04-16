@@ -34,6 +34,10 @@ void setup() {
   world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
   world.add(new Mob(MonsterShape.TRIANGLE, -100, 0, 0.5));
   world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
+  
+  world.add(new Light(MonsterShape.CIRCLE, 200, 200, 0));
+  world.add(new Light(MonsterShape.SQUARE, 200, 100, 0));
+  world.add(new Light(MonsterShape.TRIANGLE, 200, 0, 0));
 }
 
 void draw() {

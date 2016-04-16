@@ -36,8 +36,6 @@ class Wall implements CollidableEntity, DrawableEntity {
      a = .5 / a;
      float t1 = (-b - desc) * a;
      float t2 = (-b + desc) * a;
-     
-     println(t1,t2,l);
 
      if ((t1 > 0. && t1 < 1.) ||
          (t2 > 0. && t2 < 1.)) {
@@ -63,6 +61,7 @@ enum MonsterShape {
   
   MonsterShape eats;
   float radius;
+  float[][] playerShape;
   
   static {
     SQUARE.eats = TRIANGLE;
@@ -76,7 +75,55 @@ enum MonsterShape {
     
     MORPHING.eats = null;
     MORPHING.radius = 0;
+    
+    {
+      CIRCLE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
+      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) {
+        float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
+        float r = SH_FN_Circle(a) * CIRCLE.radius;
+        CIRCLE.playerShape[i] = new float[] {r*cos(a), r*sin(a)};
+      }
+    }
+    {
+      SQUARE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
+      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) { //<>//
+        float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
+        float r = SH_FN_Square(a) * SQUARE.radius;
+        SQUARE.playerShape[i] = new float[] {r*cos(a), r*sin(a)};
+      }
+    }
+    {
+      TRIANGLE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
+      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) {
+        float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
+        float r = SH_FN_Triangle(a) * TRIANGLE.radius;
+        TRIANGLE.playerShape[i] = new float[] {r*cos(a), r*sin(a)};
+      }
+    }
   }
+}
+
+static float SH_FN_Circle(float a) {
+  return 1;
+}
+
+static float SH_FN_Square(float a) {
+  if (a < PI*.25 || a > PI*(2.-.25))
+    return 1. / cos(a);
+  if (a >= PI*.25 && a <= PI*(.5+.25))
+   return 1. / cos(a - .5*PI);
+  if (a >= PI*(.5+.25) && a <= PI*(1.+.25))
+   return 1. / cos(a - PI);
+  return 1. / cos(a - (1.+.5)*PI);
+}
+
+static float SH_FN_Triangle(float a) {
+  a += .5*PI;
+  if (a < PI*2./3. || a > 2.*PI)
+  return 1. / cos(a - PI/3.);
+  if (a > PI*(1.+1./3.) && a < 2.*PI)
+  return 1. / cos(a - (1.+2./3.)*PI);
+  return 1. / cos(a - 1.*PI);
 }
 
 Map<MonsterShape, Runnable> simpleShapeDrawers = new HashMap();
@@ -144,6 +191,11 @@ class Light extends PhysicalCircleEntity implements DrawableEntity {
     pushMatrix();
     translate(x,y);
     // TODO: Draw an imgae or m.b. just use blit with no matrix.
+    pushStyle();
+    fill(255,128,128,100);
+    rect(-40,-40,80,80);
+    ellipse(0,0,80,80);
+    popStyle();
     popMatrix();
   }
   

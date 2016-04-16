@@ -8,7 +8,7 @@ List<Integer[]> walls;
 List<Integer[]> objects;
 
 Integer labirintWidth = 21;
-Integer labirintHeight = 23;
+Integer labirintHeight = 33;
 
 Integer objectsSum = 10;
 
@@ -29,11 +29,11 @@ void draw() {
   background(255);
   color(0);
   for (int i = 0; i < labirintWidth; i++) {
-   for (int j = 0; j < labirintHeight; j++) {
-      if (labirint[i][j] == WALL) {
-       rect(k*j + x_offset_labirint, k*i + y_offset_labirint, k, k);
-      }
-   }
+    for (int j = 0; j < labirintHeight; j++) {
+       if (labirint[i][j] == WALL) {
+        rect(k*i + x_offset_labirint, k*j + y_offset_labirint, k, k);
+       }
+    }
   }
   
   for (Integer[] wall : walls) {
@@ -43,4 +43,4 @@ void draw() {
    ellipse(k*object[0] + x_offset_walls, k*object[1] + y_offset_walls, k/2, k/2);
    ellipse(k*object[0] + x_offset_labirint, k*object[1] + y_offset_labirint, k/2, k/2);
   }
-}
+} //<>//

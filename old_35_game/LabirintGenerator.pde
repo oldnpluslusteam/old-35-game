@@ -23,10 +23,10 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
       }
       if (end - start > 1) {
         Integer[] wall = new Integer[4];
-        wall[0] = start;
-        wall[1] = i;
-        wall[2] = end;
-        wall[3] = i;
+        wall[0] = i;
+        wall[1] = start;
+        wall[2] = i;
+        wall[3] = end;
         walls.add(wall);
       }
       start = end + 2;
@@ -34,7 +34,7 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
     }
   }
   
-  for (int i = 0; i < labirint[0].length; i++) { //<>//
+  for (int i = 0; i < labirint[0].length; i++) {
     Integer start = 0;
     Integer end = -1;
     while(start < labirint.length){
@@ -43,10 +43,10 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
       }
       if (end - start > 1) {
         Integer[] wall = new Integer[4];
-        wall[0] = i;
-        wall[1] = start;
-        wall[2] = i;
-        wall[3] = end;
+        wall[0] = start;
+        wall[1] = i;
+        wall[2] = end;
+        wall[3] = i;
         walls.add(wall); //<>//
       }
       start = end + 2; //<>//
@@ -54,7 +54,7 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
     }
   }
   
-  return walls; //<>//
+  return walls;
 }
 
 public List<Integer[]> generateChordsForObjectInFreeSpace(Integer npcSize, Integer[][] labirint) {

@@ -7,35 +7,19 @@ public final Integer WALL = 2;
 public final Integer VISITED = 1;
 public final Integer UNVISITED = 0;
 
+public final Integer PLAYER = 0;
+public final Integer FREE_SPACE = 1; //<>//
+public final Integer NPC_PLACE = 3;
+
 public List<Integer[]> generateWalls(Integer[][] labirint) {
-  List<Integer[]> walls = new ArrayList<Integer[]>(); //<>//
+  List<Integer[]> walls = new ArrayList<Integer[]>();
   
   for (int i = 0; i < labirint.length; i++) {
     Integer start = 0;
     Integer end = -1;
     while(start < labirint[i].length){
-      while(labirint[i].length > end + 1 && labirint[end+1][i] == WALL ) { //<>//
+      while(labirint[i].length > end + 1 && labirint[i][end+1] == WALL ) { //<>//
         end++;
-      }
-      if (end - start > 1) {
-        Integer[] wall = new Integer[4];
-        wall[0] = i;
-        wall[1] = start;
-        wall[2] = i;
-        wall[3] = end;
-        walls.add(wall);
-      }
-      start = end + 2;
-      end = start;
-    }
-  }
-  
-  for (int i = 0; i < labirint[0].length; i++) { //<>//
-    Integer start = 0;
-    Integer end = -1;
-    while(start < labirint.length){
-      while(labirint.length > end + 1 && labirint[i][end+1] == WALL) {
-       end++;
       }
       if (end - start > 1) {
         Integer[] wall = new Integer[4];
@@ -46,11 +30,53 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
         walls.add(wall);
       }
       start = end + 2;
-      end = start;
-    } //<>//
+      end = start; //<>//
+    }
   }
-   //<>//
-  return walls;
+  
+  for (int i = 0; i < labirint[0].length; i++) { //<>//
+    Integer start = 0;
+    Integer end = -1;
+    while(start < labirint.length){
+      while(labirint.length > end + 1 && labirint[end+1][i] == WALL) {
+       end++;
+      }
+      if (end - start > 1) {
+        Integer[] wall = new Integer[4];
+        wall[0] = i;
+        wall[1] = start;
+        wall[2] = i;
+        wall[3] = end;
+        walls.add(wall); //<>//
+      }
+      start = end + 2; //<>//
+      end = start;
+    }
+  }
+  
+  return walls; //<>//
+}
+
+public List<Integer[]> generateChordsForObjectInFreeSpace(Integer npcSize, Integer[][] labirint) {
+  List<Integer[]> mobs = new ArrayList<Integer[]>();
+  
+  Integer[][] temporaryLabirint = labirint.clone();
+  
+  Random random = new Random(new Date().getTime());//создали рандомизатор
+  
+  for (int i = 0; i < npcSize; i++) {
+    Integer[]  newChords = new Integer[2];
+    newChords[0] = random.nextInt(temporaryLabirint.length);
+    newChords[1] = random.nextInt(temporaryLabirint[0].length);
+    if (temporaryLabirint[newChords[0]][newChords[1]] != FREE_SPACE) {
+      i--;
+      continue;
+    }
+    temporaryLabirint[newChords[0]][newChords[1]] = PLAYER;
+    mobs.add(newChords);
+  }
+  
+  return mobs;
 }
 
 public Integer[][] generateLabirint(Integer width, Integer height) {
@@ -156,8 +182,8 @@ public Integer[][] generateLabirint(Integer width, Integer height) {
 public Integer[][] generateNet(int width, int height) {
   Integer[][] net = new Integer[width][height];
   
-  for (int i = 0; i < height; i++){
-     for (int j = 0; j < width; j++) {
+  for (int i = 0; i < width; i++){
+     for (int j = 0; j < height; j++) {
        if (i%2 == 0 || j%2 == 0) {
          net[i][j] = WALL;
          continue;

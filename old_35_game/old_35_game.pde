@@ -1,5 +1,4 @@
 
-
 Integer k = 25;
 
 Integer[][] labirint;
@@ -15,32 +14,44 @@ Integer objectsSum = 10;
 Integer x_offset_labirint = k/2*labirintWidth, y_offset_labirint = 100;
 Integer x_offset_walls = k*labirintWidth + x_offset_labirint + k, y_offset_walls = 100 + k/2;
 
+World world;
+Player player;
+Camera camera;
+
 void setup() {
   fullScreen();
-  labirint = generateLabirint(labirintWidth, labirintHeight);
-  labirint[0][1] = VISITED;
-  walls = generateWalls(labirint);
-  objects = generateChordsForObjectInFreeSpace(objectsSum, labirint);
+  
+  world = new World();
+  player = new Player(MonsterShape.CIRCLE,0,0,20,0, new PlayerController(UP, DOWN, LEFT, RIGHT));
+  world.add(player);
+  camera = new Camera(player);
+  
+  // Just another wall in the world
+  world.add(new Wall(1,1,1,-1));
+  world.add(new Wall(-1,1,-1,-1));
+  world.add(new Wall(-1,1,1,1));
+  
+  world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
+  world.add(new Mob(MonsterShape.TRIANGLE, -100, -100, 0));
+  world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
 }
 
 void draw() {
+  world.updateUpdateables();
+
   clear();
   fill(0, 0, 0);
   background(255);
   color(0);
-  for (int i = 0; i < labirintWidth; i++) {
-    for (int j = 0; j < labirintHeight; j++) {
-       if (labirint[i][j] == WALL) {
-        rect(k*i + x_offset_labirint, k*j + y_offset_labirint, k, k);
-       }
-    }
-  }
   
-  for (Integer[] wall : walls) {
-   line(k*wall[0] + x_offset_walls, k*wall[1] + y_offset_walls, k*wall[2] + x_offset_walls, k*wall[3] + y_offset_walls);
-  } //<>// //<>//
-  for (Integer[] object : objects) {
-   ellipse(k*object[0] + x_offset_walls, k*object[1] + y_offset_walls, k/2, k/2);
-   ellipse(k*object[0] + x_offset_labirint, k*object[1] + y_offset_labirint, k/2, k/2);
-  }
-} //<>//
+  stroke(255);
+  fill(189);
+  pushMatrix();
+  camera.setup(width,height);
+  world.drawDrawables();
+  popMatrix();
+  
+  stroke(128);
+  line(width/2,0,width/2,height);
+  line(0,height/2,width,height/2);
+}

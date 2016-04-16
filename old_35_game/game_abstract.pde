@@ -15,7 +15,10 @@ interface UpdatebleEntity {
 }
 
 class World {
-  static final float TUNNEL_WIDTH = 50.0;
+  static final float TUNNEL_WIDTH = 80.0;
+  static final int PLAYER_SHAPE_VERTICES = 512;
+  static final float PLAYER_RADIUS_BASE = 20.0;
+  static final float MOB_RADIUS_BASE = 20.0;
   
   List<CollidableEntity> ces = new ArrayList();
   List<UpdatebleEntity> ues = new LinkedList();

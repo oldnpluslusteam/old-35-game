@@ -35,6 +35,7 @@ class World {
   }
   
   void collideCollidables() {
+
     for (int i = 0; i < ces.size(); ++i)
       for (int j = i+1; j < ces.size(); ++j)
         ces.get(i).checkCollision(ces.get(j));

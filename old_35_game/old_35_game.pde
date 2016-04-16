@@ -17,11 +17,12 @@ void setup() {
   world.add(new Wall(-1,1,1,1));
   
   world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
-  world.add(new Mob(MonsterShape.TRIANGLE, -100, -100, 0));
+  world.add(new Mob(MonsterShape.TRIANGLE, -100, 0, 0.5));
   world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
 }
 
 void draw() {
+  world.collideCollidables();
   world.updateUpdateables();
 
   clear();

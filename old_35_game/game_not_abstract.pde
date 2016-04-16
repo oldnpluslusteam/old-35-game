@@ -21,6 +21,7 @@ class Wall implements CollidableEntity, DrawableEntity {
 }
 
 enum MonsterShape {
+  // Shape of Wolf and Man
   SQUARE,
   CIRCLE,
   TRIANGLE,
@@ -50,11 +51,37 @@ abstract class PhysicalCircleEntity implements CollidableEntity {
   };
 }
 
+class Light extends PhysicalCircleEntity implements DrawableEntity {
+  MonsterShape targetShape;
+  
+  Light(MonsterShape targetShape, float x, float y, float r) {
+    this.targetShape = targetShape;
+    this.x = x; this.y = y; this.r = r;
+  }
+  
+  public void draw() {
+    pushMatrix();
+    translate(x,y);
+    // TODO: Draw an imgae or m.b. just use blit with no matrix.
+    popMatrix();
+  }
+  
+  public void onHit(CollidableEntity other, float ptx, float pty, float normx, float normy) {};
+}
+
 abstract class Monster extends PhysicalCircleEntity implements DrawableEntity, CollidableEntity, UpdatebleEntity {
   float a;
   
   public void onHit(CollidableEntity other, float ptx, float pty, float normx, float normy) {
-    // TODO
+    if (other instanceof Light)
+      this.onHitTheLight(((Light)other).targetShape);
+    
+    if (other instanceof Wall)
+      this.onHitTheWall((Wall)other, normx, normy);
+    
+    if (other instanceof Monster) {
+      // TODO: Eat it
+    }
   };
   
   public void update(float dt) {
@@ -70,4 +97,6 @@ abstract class Monster extends PhysicalCircleEntity implements DrawableEntity, C
   };
   
   abstract void drawShape();
+  abstract void onHitTheLight(MonsterShape targetShape);
+  abstract void onHitTheWall(Wall wall, float nx, float ny);
 }

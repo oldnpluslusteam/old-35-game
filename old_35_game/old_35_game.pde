@@ -40,6 +40,13 @@ void setup() {
   world.add(new Light(MonsterShape.CIRCLE, 200, 200, 0));
   world.add(new Light(MonsterShape.SQUARE, 200, 100, 0));
   world.add(new Light(MonsterShape.TRIANGLE, 200, 0, 0));
+  
+  // TODO:
+  // - uncomment
+  // - insert file name
+  // - run
+  // - ENJOY MADNESS
+  //playMusic("<fileName>.mp3");
 }
 
 void addLabirint() {
@@ -61,8 +68,7 @@ void draw() {
 
   clear();
   fill(0, 0, 0);
-  background(0);
-  color(0);
+  background(getAudioPeak()*244);
   
   stroke(255);
   fill(189);

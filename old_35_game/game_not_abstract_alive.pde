@@ -39,10 +39,12 @@ class Player extends Monster {
   static final float CAM_POS_DELAY_K = 5.0;
   static final float CAM_ANGLE_DELAY_K = 2.0;
   
-  static final float ANGULAR_VELOCITY_K = 1.0;
-  static final float LINEAR_VELOCITY_K = 100.0;
+  static final float ANGULAR_VELOCITY_K = 2.0;
+  static final float LINEAR_VELOCITY_K = 300.0;
   
   static final float MORPH_SPEED = 1.0;
+  
+  static final float NOIZE_WEIGHT = 20.0;
   
   float camX, camY, camA;
   PlayerController controller;
@@ -50,6 +52,7 @@ class Player extends Monster {
   float collX, collY;
   MonsterShape targetShape, prevShape;
   float morph;
+  float[] noizze = new float[World.PLAYER_SHAPE_VERTICES];
   
   Player(MonsterShape shape, float x, float y, float r, float a, PlayerController controller) {
     super(shape,x,y,r,a);
@@ -60,16 +63,19 @@ class Player extends Monster {
 
   void drawShape() {
     beginShape();
+    getAudioNoise(noizze);
     if (this.shape == MonsterShape.MORPHING) {
       for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) {
         float[] vt = this.targetShape.playerShape[i];
         float[] vp = this.prevShape.playerShape[i];
-        vertex(vt[0] * morph + vp[0] * (1.-morph), vt[1] * morph + vp[1] * (1.-morph));
+        float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
+        vertex(vt[0] * morph + vp[0] * (1.-morph) + noizze[i] * NOIZE_WEIGHT * cos(a), vt[1] * morph + vp[1] * (1.-morph) + noizze[i] * NOIZE_WEIGHT * sin(a));
       }
     } else {
       for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) {
         float[] v = this.shape.playerShape[i];
-        vertex(v[0], v[1]);
+        float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
+        vertex(v[0] + noizze[i] * NOIZE_WEIGHT * cos(a), v[1] + noizze[i] * NOIZE_WEIGHT * sin(a));
       }
     }
     endShape(CLOSE);
@@ -87,9 +93,8 @@ class Player extends Monster {
   };
   
   void onHitTheWall(Wall wall, float nx, float ny) {
-    println("Player hit the Wall!",nx,ny);
     if (!inCollision) {
-    inCollision = true;
+      inCollision = true;
       collX = nx; collY = ny;
     } else {
       collX += nx; collY += ny;

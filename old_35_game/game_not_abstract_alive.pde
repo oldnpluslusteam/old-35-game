@@ -22,7 +22,15 @@ class Mob extends Monster {
   void onHitTheLight(MonsterShape targetShape) {/*Do nothing*/};
   
   void onHitTheWall(Wall wall, float nx, float ny) {
-    // TODO: Ricochet!
+    println("Hit the Wall!",nx,ny);
+    
+    float d = vx * nx + vy * ny;
+    
+    if (d <= 0)
+      return;
+    
+    vx -= 2. * nx * d;
+    vy -= 2. * ny * d;
   };
 }
 
@@ -34,8 +42,14 @@ class Player extends Monster {
   static final float ANGULAR_VELOCITY_K = 1.0;
   static final float LINEAR_VELOCITY_K = 100.0;
   
+  static final float MORPH_SPEED = 1.0;
+  
   float camX, camY, camA;
   PlayerController controller;
+  boolean inCollision = false;
+  float collX, collY;
+  MonsterShape targetShape, prevShape;
+  float morph;
   
   Player(MonsterShape shape, float x, float y, float r, float a, PlayerController controller) {
     super(shape,x,y,r,a);
@@ -45,26 +59,69 @@ class Player extends Monster {
   }
 
   void drawShape() {
-    simpleShapeDrawers.get(this.shape).run();
+    beginShape();
+    if (this.shape == MonsterShape.MORPHING) {
+      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) {
+        float[] vt = this.targetShape.playerShape[i];
+        float[] vp = this.prevShape.playerShape[i];
+        vertex(vt[0] * morph + vp[0] * (1.-morph), vt[1] * morph + vp[1] * (1.-morph));
+      }
+    } else {
+      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) {
+        float[] v = this.shape.playerShape[i];
+        vertex(v[0], v[1]);
+      }
+    }
+    endShape(CLOSE);
   };
   
   void onHitTheLight(MonsterShape targetShape) {
-    // TODO: Shift shape
+    println("Hit the light!", targetShape.toString());
+    if (targetShape == this.targetShape || this.shape == MonsterShape.MORPHING)
+      return;
+
+    this.prevShape = this.shape;
+    this.targetShape = targetShape;
+    this.shape = MonsterShape.MORPHING;
+    this.morph = 0.0;
   };
   
   void onHitTheWall(Wall wall, float nx, float ny) {
-    // TODO: Slow down
+    println("Player hit the Wall!",nx,ny);
+    if (!inCollision) {
+    inCollision = true;
+      collX = nx; collY = ny;
+    } else {
+      collX += nx; collY += ny;
+    }
   };
   
   public void update(float dt) {
-    float dx = sin(this.a), dy = -cos(this.a);
+    float dx = sin(this.a)  * dt*LINEAR_VELOCITY_K*(float)controller.getDirectVelocity(),
+          dy = -cos(this.a) * dt*LINEAR_VELOCITY_K*(float)controller.getDirectVelocity();
     
-    this.x += dt*LINEAR_VELOCITY_K*(float)controller.getDirectVelocity() * dx;
-    this.y += dt*LINEAR_VELOCITY_K*(float)controller.getDirectVelocity() * dy;
+    if (inCollision) {
+      float d = dx * collX + dy * collY;
+      if (d > 0) {
+        dx -= collX * d * 5.;
+        dy -= collY * d * 5.;
+      }
+      inCollision = false;
+    }
+    
+    this.x += dx;
+    this.y += dy;
     this.a += dt*ANGULAR_VELOCITY_K*(float)controller.getAngularVelocity()*-1.;
     
     this.camX = this.x * CAM_POS_DELAY_K * dt + this.camX * (1.0 - CAM_POS_DELAY_K * dt);
     this.camY = this.y * CAM_POS_DELAY_K * dt + this.camY * (1.0 - CAM_POS_DELAY_K * dt);
     this.camA = this.a * CAM_ANGLE_DELAY_K * dt + this.camA * (1.0 - CAM_ANGLE_DELAY_K * dt);
+    
+    this.morph += MORPH_SPEED * dt;
+    
+    if (this.morph >= 1.0 && this.shape == MonsterShape.MORPHING) {
+      this.shape = this.targetShape;
+      this.r = this.shape.radius;
+    }
   };
 }

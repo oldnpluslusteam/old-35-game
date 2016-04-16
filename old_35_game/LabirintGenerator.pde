@@ -8,8 +8,17 @@ public final Integer VISITED = 1;
 public final Integer UNVISITED = 0;
 
 public final Integer PLAYER = 0;
-public final Integer FREE_SPACE = 1; //<>//
+public final Integer FREE_SPACE = 1; //<>// //<>//
 public final Integer NPC_PLACE = 3;
+
+
+public List<Integer[]> generateWalls(Integer width, Integer height) {
+  
+  Integer[][] labirint = generateLabirint(width, height);
+  
+  List<Integer[]> walls = generateWalls(labirint);
+  return walls;
+} //<>//
 
 public List<Integer[]> generateWalls(Integer[][] labirint) {
   List<Integer[]> walls = new ArrayList<Integer[]>();
@@ -21,7 +30,7 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
       while(labirint[i].length > end + 1 && labirint[i][end+1] == WALL ) { //<>//
         end++;
       }
-      if (end - start > 1) {
+      if (end - start > 1) { //<>//
         Integer[] wall = new Integer[4];
         wall[0] = i;
         wall[1] = start;
@@ -38,9 +47,9 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
     Integer start = 0;
     Integer end = -1;
     while(start < labirint.length){
-      while(labirint.length > end + 1 && labirint[end+1][i] == WALL) {
+      while(labirint.length > end + 1 && labirint[end+1][i] == WALL) { //<>//
        end++;
-      }
+      } //<>//
       if (end - start > 1) {
         Integer[] wall = new Integer[4];
         wall[0] = start;
@@ -72,11 +81,54 @@ public List<Integer[]> generateChordsForObjectInFreeSpace(Integer npcSize, Integ
       i--;
       continue;
     }
-    temporaryLabirint[newChords[0]][newChords[1]] = PLAYER;
+    temporaryLabirint[newChords[0]][newChords[1]] = NPC_PLACE;
     mobs.add(newChords);
   }
   
+  Integer[] playerChords = new Integer[2];
+  while (true) {
+    playerChords[0] = random.nextInt(temporaryLabirint.length);
+    playerChords[1] = random.nextInt(temporaryLabirint[0].length);
+    if (temporaryLabirint[playerChords[0]][playerChords[1]] != FREE_SPACE) {
+      continue;
+    }
+    temporaryLabirint[playerChords[0]][playerChords[1]] = PLAYER; 
+    break;
+  }
+  
   return mobs;
+}
+
+public Integer[][] generateLabirintWithQuit(Integer width, Integer height) {
+  Integer[][] labirint = generateLabirint(width, height);
+  
+  //Random random = new Random(new Date().getTime());//создали рандомизатор
+  
+  //Integer[] quitChords = new Integer[2];
+  
+  //Integer edgeChord = random.nextInt(2);
+  
+  //Integer otherChord = 1 - edgeChord;
+  
+  //quitChords[edgeChord] = random.nextInt(2) == 1 ? 0 : (edgeChord == 1 ? height : width);
+  
+  //Integer sum = otherChord == 0 ? width : height ;
+  
+  //while (true) {
+  //  quitChords[otherChord]  = random.nextInt(sum);
+  //  if (quitChords[otherChord] % 2 != 0 && quitChords[otherChord] > 0 && quitChords[otherChord] < sum) {
+  //    break;
+  //  }
+  //}
+  
+  //System.out.println(quitChords[0]);
+  //System.out.println(quitChords[1]);
+  
+  //labirint[quitChords[0]][quitChords[1]] = FREE_SPACE;
+  
+  labirint[0][1] = FREE_SPACE;
+  
+  return labirint;
 }
 
 public Integer[][] generateLabirint(Integer width, Integer height) {

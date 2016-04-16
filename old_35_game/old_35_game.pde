@@ -22,14 +22,16 @@ void setup() {
   fullScreen();
   
   world = new World();
-  player = new Player(MonsterShape.CIRCLE,0,0,20,0, new PlayerController(UP, DOWN, LEFT, RIGHT));
+  
+  player = new Player(MonsterShape.CIRCLE, 0, 0, 20, 0, new PlayerController(UP, DOWN, LEFT, RIGHT));
   world.add(player);
   camera = new Camera(player);
-  
   // Just another wall in the world
-  world.add(new Wall(1,1,1,-1));
-  world.add(new Wall(-1,1,-1,-1));
-  world.add(new Wall(-1,1,1,1));
+  //world.add(new Wall(1,1,1,-1));
+  //world.add(new Wall(-1,1,-1,-1));
+  //world.add(new Wall(-1,1,1,1));
+  
+  addLabirint();
   
   world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
   world.add(new Mob(MonsterShape.TRIANGLE, -100, 0, 0.5));
@@ -40,18 +42,33 @@ void setup() {
   world.add(new Light(MonsterShape.TRIANGLE, 200, 0, 0));
 }
 
+void addLabirint() {
+  Integer[][] labirint = generateLabirintWithQuit(labirintWidth, labirintWidth);
+  
+  List<Integer[]> walls = generateWalls(labirint);
+  
+  List<Integer[]> objects = generateChordsForObjectInFreeSpace(10, labirint);
+  
+  for (Integer[] wall : walls) {
+    world.add(new Wall(wall[0], wall[1], wall[2], wall[3]));
+  }
+  
+}
+
 void draw() {
-  world.collideCollidables();
+  
   world.updateUpdateables();
 
   clear();
   fill(0, 0, 0);
   background(0);
+  color(0);
   
   stroke(255);
   fill(189);
   pushMatrix();
   camera.setup(width,height);
+  world.collideCollidables();
   world.drawDrawables();
   popMatrix();
   

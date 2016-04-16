@@ -42,8 +42,7 @@ void draw() {
 
   clear();
   fill(0, 0, 0);
-  background(255);
-  color(0);
+  background(0);
   
   stroke(255);
   fill(189);

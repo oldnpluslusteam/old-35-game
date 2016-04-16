@@ -1,4 +1,19 @@
 
+Integer k = 25;
+
+Integer[][] labirint;
+
+List<Integer[]> walls;
+List<Integer[]> objects;
+
+Integer labirintWidth = 21;
+Integer labirintHeight = 33;
+
+Integer objectsSum = 10;
+
+Integer x_offset_labirint = k/2*labirintWidth, y_offset_labirint = 100;
+Integer x_offset_walls = k*labirintWidth + x_offset_labirint + k, y_offset_walls = 100 + k/2;
+
 World world;
 Player player;
 Camera camera;
@@ -26,6 +41,10 @@ void draw() {
   world.updateUpdateables();
 
   clear();
+  fill(0, 0, 0);
+  background(255);
+  color(0);
+  
   stroke(255);
   fill(189);
   pushMatrix();

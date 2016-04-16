@@ -7,6 +7,51 @@ public final Integer WALL = 2;
 public final Integer VISITED = 1;
 public final Integer UNVISITED = 0;
 
+public List<Integer[]> generateWalls(Integer[][] labirint) {
+  List<Integer[]> walls = new ArrayList<Integer[]>(); //<>//
+  
+  for (int i = 0; i < labirint.length; i++) {
+    Integer start = 0;
+    Integer end = -1;
+    while(start < labirint[i].length){
+      while(labirint[i].length > end + 1 && labirint[end+1][i] == WALL ) { //<>//
+        end++;
+      }
+      if (end - start > 1) {
+        Integer[] wall = new Integer[4];
+        wall[0] = i;
+        wall[1] = start;
+        wall[2] = i;
+        wall[3] = end;
+        walls.add(wall);
+      }
+      start = end + 2;
+      end = start;
+    }
+  }
+  
+  for (int i = 0; i < labirint[0].length; i++) { //<>//
+    Integer start = 0;
+    Integer end = -1;
+    while(start < labirint.length){
+      while(labirint.length > end + 1 && labirint[i][end+1] == WALL) {
+       end++;
+      }
+      if (end - start > 1) {
+        Integer[] wall = new Integer[4];
+        wall[0] = start;
+        wall[1] = i;
+        wall[2] = end;
+        wall[3] = i;
+        walls.add(wall);
+      }
+      start = end + 2;
+      end = start;
+    } //<>//
+  }
+   //<>//
+  return walls;
+}
 
 public Integer[][] generateLabirint(Integer width, Integer height) {
   
@@ -38,7 +83,7 @@ public Integer[][] generateLabirint(Integer width, Integer height) {
   
   
   while(true) {
-   if (visitedPoints.size() == 0) { //<>//
+   if (visitedPoints.size() == 0) {
     break; 
    }
    Integer[] currentPoint = visitedPoints.peek();//подсмотрели значение сверху
@@ -47,9 +92,9 @@ public Integer[][] generateLabirint(Integer width, Integer height) {
     
    for (int i = -1; i < 2; i += 2) {//x -1 1
      if (currentPoint[1] + i*2 > 0 && currentPoint[1] + i*2 < height) {
-       int[] possiblePosition = new int[4]; //<>//
+       int[] possiblePosition = new int[4];
        possiblePosition[0] = currentPoint[0];
-       possiblePosition[1] = currentPoint[1] + i; //<>//
+       possiblePosition[1] = currentPoint[1] + i;
        possiblePosition[2] = 0;//modifier i
        possiblePosition[3] = i;//modifier j
        possibleNextPositions.add(possiblePosition);
@@ -69,7 +114,7 @@ public Integer[][] generateLabirint(Integer width, Integer height) {
     
    while (true) {
       
-     if (possibleNextPositions.isEmpty()) { //<>//
+     if (possibleNextPositions.isEmpty()) {
        for (int i = 0; i < 2 && visitedPoints.size() > 0; i++){
          visitedPoints.pop();
        }

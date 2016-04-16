@@ -1,17 +1,22 @@
 
-Integer x_offset = 0, y_offset = 0;
 
-Integer k = 25;
+Integer k = 5;
 
 Integer[][] labirint;
 
-Integer labirintWidth = 31;
-Integer labirintHeight = 31;
+List<Integer[]> walls;
+
+Integer labirintWidth = 91;
+Integer labirintHeight = 91;
+
+Integer x_offset_labirint = k/2*labirintWidth, y_offset_labirint = 100;
+Integer x_offset_walls = k*labirintWidth + x_offset_labirint + k, y_offset_walls = 100;
 
 void setup() {
   fullScreen();
   labirint = generateLabirint(labirintWidth, labirintHeight);
   labirint[0][1] = VISITED;
+  walls = generateWalls(labirint);
 }
 
 void draw() {
@@ -22,8 +27,12 @@ void draw() {
   for (int i = 0; i < labirintHeight; i++) {
     for (int j = 0; j < labirintWidth; j++) {
        if (labirint[i][j] == WALL) {
-        rect(k*j + x_offset, k*i + y_offset, k/2, k/2);
+        rect(k*j + x_offset_labirint, k*i + y_offset_labirint, k, k);
        }
     }
   }
+  
+  for (Integer[] wall : walls) {
+    line(k*wall[0] + x_offset_walls, k*wall[1] + y_offset_walls, k*wall[2] + x_offset_walls, k*wall[3] + y_offset_walls);
+  } //<>// //<>//
 }

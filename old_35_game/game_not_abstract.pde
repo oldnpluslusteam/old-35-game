@@ -72,10 +72,10 @@ enum MonsterShape {
     CIRCLE.radius = 20;
     
     TRIANGLE.eats = CIRCLE;
-    TRIANGLE.radius = 10;
+    TRIANGLE.radius = 15;
     
     MORPHING.eats = null;
-    MORPHING.radius = 0;
+    MORPHING.radius = 20;
     
     {
       CIRCLE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
@@ -191,13 +191,9 @@ class Light extends PhysicalCircleEntity implements DrawableEntity {
   public void draw() {
     pushMatrix();
     translate(x,y);
-    // TODO: Draw an imgae or m.b. just use blit with no matrix.
+    
     image(targetShape.lightImage, -(r)/2,-(r)/2, r, r);
-    //pushStyle();
-    //fill(255,128,128,100);
-    //rect(-40,-40,80,80);
-    //ellipse(0,0,80,80);
-    //popStyle();
+    
     popMatrix();
   }
   

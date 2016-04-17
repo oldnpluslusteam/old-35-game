@@ -34,6 +34,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
+  playMusic("/media/aleksey/16GB Volume/ld35.wav");
   
   world = new World();
   
@@ -57,10 +58,12 @@ void addLabirint() {
   List<Integer[]> walls = generateWalls(labirint);
   
   List<Integer[]> objectsChords = new ArrayList<Integer[]>();
-  objectsChords = generateChordsForObjectInFreeSpace(100, labirint); //<>//
+  objectsChords = generateChordsForObjectInFreeSpace(0, labirint); //<>//
   
   List<Integer[]> lightsChords = new ArrayList<Integer[]>();
-  lightsChords = generateLights(labirintWidth, labirintHeight, 10, 30, 20);
+  lightsChords = generateLights(labirintWidth, labirintHeight, 30, 50, 20);
+  
+  Integer[] winPlace = getWinPlace(labirint);
   
   for (Integer[] wall : walls) { //<>//
     world.add(new Wall(wall[0], wall[1], wall[2], wall[3]));
@@ -85,6 +88,9 @@ void addLabirint() {
   for (Integer[] light : lightsChords) {
     world.add(new Light(shapes.get(random.nextInt(3)), light[0]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[1]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[2]));
   }
+  
+  world.add(new WinMob(winPlace[0]*World.TUNNEL_WIDTH, winPlace[1]*World.TUNNEL_WIDTH));
+  
 }
 
 void draw() {

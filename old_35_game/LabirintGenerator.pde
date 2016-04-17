@@ -11,6 +11,8 @@ public final Integer PLAYER = 0;
 public final Integer FREE_SPACE = 1; //<>// //<>//
 public final Integer NPC_PLACE = 3;
 
+public final Integer WIN_PLACE = 10;
+
 public List<Integer[]> generateWalls(Integer width, Integer height) {
   
   Integer[][] labirint = generateLabirint(width, height);
@@ -139,11 +141,25 @@ public Integer[][] generateLabirintWithQuit(Integer width, Integer height) {
   System.out.println(quitChords[0]);
   System.out.println(quitChords[1]);
   
-  labirint[quitChords[0]][quitChords[1]] = FREE_SPACE;
+  labirint[quitChords[0]][quitChords[1]] = WIN_PLACE;
   
   //labirint[0][1] = FREE_SPACE;
   
   return labirint;
+}
+
+public Integer[] getWinPlace(Integer[][] labirint) {
+  Integer[] place = new Integer[2];
+  for (int i = 0; i < labirint.length; i++){
+    for (int j = 0; j < labirint[0].length; j++) {
+      if (labirint[i][j] == WIN_PLACE){
+        place[0] = i;
+        place[1] = j;
+        return place;
+      }
+    }
+  }
+  return place;
 }
 
 public Integer[][] generateLabirint(Integer width, Integer height) {

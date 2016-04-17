@@ -18,8 +18,18 @@ World world;
 Player player;
 Camera camera;
 
+PGraphics minimapGraphics;
+
 void setup() {
   fullScreen();
+  minimapGraphics = createGraphics(128, 128);
+  
+  // TODO:
+  // - uncomment
+  // - insert file name
+  // - run
+  // - ENJOY MADNESS
+  //playMusic("<fileName>.mp3");
   
   world = new World();
   
@@ -37,15 +47,6 @@ void setup() {
   world.add(new Light(MonsterShape.CIRCLE, 200, 200, 0));
   world.add(new Light(MonsterShape.SQUARE, 200, 100, 0));
   world.add(new Light(MonsterShape.TRIANGLE, 200, 0, 0));
-  
-  // TODO:
-  // - uncomment
-  // - insert file name
-  // - run
-  // - ENJOY MADNESS
-  //playMusic("<fileName>.mp3");
-  playMusic("/media/aleksey/16GB Volume/Apocalyptica/2003 - Reflections/09 Heat.mp3");
-  
 }
 
 void addLabirint() {  
@@ -80,7 +81,7 @@ void addLabirint() {
   
   System.out.println(objectsChords);
   
-} //<>// //<>//
+}
 
 void draw() {
   
@@ -99,6 +100,29 @@ void draw() {
   popMatrix();
   
   stroke(128);
-  line(width/2,0,width/2,height);
-  line(0,height/2,width,height/2);
+  //line(width/2,0,width/2,height);
+  //line(0,height/2,width,height/2);
+  
+  minimapGraphics.beginDraw();
+  minimapGraphics.clear();
+  minimapGraphics.background(0,0,0,0);
+  minimapGraphics.stroke(255);
+  minimapGraphics.strokeWeight(1);
+  minimapGraphics.translate(5,5);
+  minimapGraphics.stroke(200);
+  minimapGraphics.fill(128);
+  minimapGraphics.rect(-5,-5,110,110,5);
+  minimapGraphics.strokeWeight(10);
+  minimapGraphics.scale(5./World.TUNNEL_WIDTH);
+  for (DrawableEntity de : world.des)
+    if (de instanceof Wall) {
+      Wall w = (Wall)de;
+      minimapGraphics.line(w.x1,w.y1,w.x2,w.y2);
+    }
+  minimapGraphics.stroke(255);
+  minimapGraphics.fill(255,128,128);
+  minimapGraphics.ellipse(player.x, player.y, 100,100);
+  minimapGraphics.endDraw();
+  
+  image(minimapGraphics, width-128, height-128);
 }

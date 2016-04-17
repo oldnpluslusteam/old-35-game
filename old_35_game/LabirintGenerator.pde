@@ -8,9 +8,8 @@ public final Integer VISITED = 1;
 public final Integer UNVISITED = 0;
 
 public final Integer PLAYER = 0;
-public final Integer FREE_SPACE = 1;
+public final Integer FREE_SPACE = 1; //<>//
 public final Integer NPC_PLACE = 3;
-
 
 public List<Integer[]> generateWalls(Integer width, Integer height) {
   
@@ -19,7 +18,7 @@ public List<Integer[]> generateWalls(Integer width, Integer height) {
   List<Integer[]> walls = generateWalls(labirint);
   return walls;
 }
-
+ //<>//
 public List<Integer[]> generateWalls(Integer[][] labirint) {
   List<Integer[]> walls = new ArrayList<Integer[]>();
   
@@ -31,7 +30,7 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
         end++;
       }
       if (end - start > 1) {
-        Integer[] wall = new Integer[4];
+        Integer[] wall = new Integer[4]; //<>//
         wall[0] = i;
         wall[1] = start;
         wall[2] = i;
@@ -48,9 +47,9 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
     Integer end = -1;
     while(start < labirint.length){
       while(labirint.length > end + 1 && labirint[end+1][i] == WALL) {
-       end++;
+       end++; //<>//
       }
-      if (end - start > 1) {
+      if (end - start > 1) { //<>//
         Integer[] wall = new Integer[4];
         wall[0] = start;
         wall[1] = i;

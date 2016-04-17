@@ -58,7 +58,7 @@ void addLabirint() {
   List<Integer[]> walls = generateWalls(labirint);
   
   List<Integer[]> objectsChords = new ArrayList<Integer[]>();
-  objectsChords = generateChordsForObjectInFreeSpace(0, labirint); //<>//
+  objectsChords = generateChordsForObjectInFreeSpace(75, labirint); //<>//
   
   List<Integer[]> lightsChords = new ArrayList<Integer[]>();
   lightsChords = generateLights(labirintWidth, labirintHeight, 30, 50, 20);

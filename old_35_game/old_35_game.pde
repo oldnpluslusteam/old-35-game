@@ -23,7 +23,6 @@ void setup() {
   
   world = new World();
   
-  camera = new Camera(player);
   // Just another wall in the world
   //world.add(new Wall(1,1,1,-1));
   //world.add(new Wall(-1,1,-1,-1));
@@ -45,7 +44,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
-  //playMusic("/media/aleksey/16GB Volume/Apocalyptica/2003 - Reflections/09 Heat.mp3");
+  playMusic("/media/aleksey/16GB Volume/Apocalyptica/2003 - Reflections/09 Heat.mp3");
   
 }
 
@@ -58,9 +57,9 @@ void addLabirint() {
   
   List<Integer[]> objectsChords = new ArrayList<Integer[]>();
   objectsChords = generateChordsForObjectInFreeSpace(10, labirint); //<>//
-  
+   //<>//
   for (Integer[] wall : walls) { //<>//
-    world.add(new Wall(wall[0], wall[1], wall[2], wall[3]));
+    world.add(new Wall(wall[0], wall[1], wall[2], wall[3])); //<>//
   }
   
   List<MonsterShape> shapes = new ArrayList<MonsterShape>();
@@ -73,14 +72,15 @@ void addLabirint() {
     if (labirint[objectChords[0]][objectChords[1]] == NPC_PLACE) {
       world.add(new Mob(shapes.get(random.nextInt(3)), objectChords[0]*World.TUNNEL_WIDTH - (World.TUNNEL_WIDTH/2), objectChords[1]*World.TUNNEL_WIDTH - (World.TUNNEL_WIDTH/2), radians(random.nextInt(360))));
     } else if (labirint[objectChords[0]][objectChords[1]] == PLAYER){
-      player = new Player(MonsterShape.CIRCLE, 0, 0, 20, 0, new PlayerController(UP, DOWN, LEFT, RIGHT));
+      player = new Player(MonsterShape.CIRCLE, objectChords[0]*World.TUNNEL_WIDTH - (World.TUNNEL_WIDTH/2), objectChords[1]*World.TUNNEL_WIDTH - (World.TUNNEL_WIDTH/2), MonsterShape.CIRCLE.radius, 0, new PlayerController(UP, DOWN, LEFT, RIGHT));
       world.add(player);
+      camera = new Camera(player);
     }
   }
   
   System.out.println(objectsChords);
   
-} //<>//
+} //<>// //<>//
 
 void draw() {
   

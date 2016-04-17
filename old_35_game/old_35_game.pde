@@ -34,7 +34,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
-  playMusic("/media/aleksey/16GB Volume/ld35.wav");
+  //playMusic("/media/aleksey/16GB Volume/ld35.wav");
   
   world = new World();
   

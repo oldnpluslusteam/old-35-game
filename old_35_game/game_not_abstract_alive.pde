@@ -167,7 +167,7 @@ class WinMob extends Mob {
   @Override
   public void onHit(CollidableEntity other, float ptx, float pty, float normx, float normy) {
     if (other instanceof Player) {
-      throw new WinException((Player)other);
+      throw new WinException((Player) other);
     }
   };
 }

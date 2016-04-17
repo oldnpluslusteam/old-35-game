@@ -32,7 +32,19 @@ class Mob extends Monster {
     vx -= 2. * nx * d;
     vy -= 2. * ny * d;
   };
+  
+  void onEaten(Monster other) {
+    world.kill(this);
+  }
 }
+
+class DeathException extends RuntimeException {
+  Player player;
+  
+  DeathException(Player player) {
+    this.player = player;
+  }
+};
 
 // However you are a Monster
 class Player extends Monster {
@@ -129,4 +141,8 @@ class Player extends Monster {
       this.r = this.shape.radius;
     }
   };
+  
+  void onEaten(Monster other) {
+    throw new DeathException(this);
+  }
 }

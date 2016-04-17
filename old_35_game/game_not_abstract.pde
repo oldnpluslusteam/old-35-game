@@ -86,7 +86,7 @@ enum MonsterShape {
     }
     {
       SQUARE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
-      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) { //<>//
+      for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) { //<>// //<>//
         float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
         float r = SH_FN_Square(a) * SQUARE.radius;
         SQUARE.playerShape[i] = new float[] {r*cos(a), r*sin(a)};
@@ -133,7 +133,7 @@ Map<MonsterShape, Runnable> simpleShapeDrawers = new HashMap();
     public void run() {
       float r = MonsterShape.CIRCLE.radius;
       ellipse(0,0,2*r,2*r);
-    } //<>//
+    } //<>// //<>//
   });
   simpleShapeDrawers.put(MonsterShape.SQUARE, new Runnable() {
     public void run() {
@@ -222,7 +222,10 @@ abstract class Monster extends PhysicalCircleEntity implements DrawableEntity, C
       this.onHitTheWall((Wall)other, normx, normy);
     
     if (other instanceof Monster) {
-      // TODO: Eat it
+      Monster om = (Monster)other;
+      if (this.shape.eats == om.shape) {
+        om.onEaten(this);
+      }
     }
   };
   
@@ -241,4 +244,5 @@ abstract class Monster extends PhysicalCircleEntity implements DrawableEntity, C
   abstract void drawShape();
   abstract void onHitTheLight(MonsterShape targetShape);
   abstract void onHitTheWall(Wall wall, float nx, float ny);
+  abstract void onEaten(Monster by);
 }

@@ -24,9 +24,59 @@ void setup() {
   fullScreen();
   minimapGraphics = createGraphics(128, 128);
   
-  MonsterShape.SQUARE.lightImage = loadImage("light-square.png");
-  MonsterShape.TRIANGLE.lightImage = loadImage("light-triangle.png");
-  MonsterShape.CIRCLE.lightImage = loadImage("light-circle.png");
+  //MonsterShape.SQUARE.lightImage = loadImage("light-square.png");
+  //MonsterShape.TRIANGLE.lightImage = loadImage("light-triangle.png");
+  //MonsterShape.CIRCLE.lightImage = loadImage("light-circle.png");
+  {
+    MonsterShape.SQUARE.lightImage = createGraphics(128,128);
+    PGraphics g = MonsterShape.SQUARE.lightImage;
+    g.beginDraw();
+    g.translate(64,64);
+    g.background(0,0,0,0);
+    g.noFill();
+    for (int i = 0; i < 64; ++i) {
+      g.stroke((64-i)*255/128);
+      g.ellipse(0,0,i,i);
+    }
+    g.blendMode(REPLACE);
+    g.fill(0,0,0,0);
+    g.rect(-10,-10,20,20);
+    g.endDraw();
+  }  {
+    MonsterShape.TRIANGLE.lightImage = createGraphics(128,128);
+    PGraphics g = MonsterShape.TRIANGLE.lightImage;
+    g.beginDraw();
+    g.translate(64,64);
+    g.background(0,0,0,0);
+    g.noFill();
+    for (float i = 0; i < 64; i += 0.8) {
+      g.stroke((64-i)*255/128);
+      g.ellipse(0,0,i,i);
+    }
+    g.blendMode(REPLACE);
+    g.fill(0,0,0,0);
+    g.beginShape();
+    g.vertex(0,10);
+    g.vertex(-10,-10);
+    g.vertex(10,-10);
+    g.endShape(CLOSE);
+    g.endDraw();
+  }  {
+    MonsterShape.CIRCLE.lightImage = createGraphics(128,128);
+    PGraphics g = MonsterShape.CIRCLE.lightImage;
+    g.beginDraw();
+    g.translate(64,64);
+    g.background(0,0,0,0);
+    g.noFill();
+    for (int i = 0; i < 64; ++i) {
+      g.stroke((64-i)*255/128);
+      g.ellipse(0,0,i,i);
+    }
+    g.blendMode(REPLACE);
+    g.fill(0,0,0,0);
+    g.ellipse(0,0,20,20);
+    g.endDraw();
+  }
   
   // TODO:
   // - uncomment
@@ -34,7 +84,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
-  //playMusic("/media/aleksey/16GB Volume/ld35.wav");
+  playMusic("/media/content/Music/Metallica/Death Magnetic/11 Hate Train .mp3");
   
   world = new World();
   

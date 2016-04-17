@@ -20,6 +20,25 @@ World world;
 Player player;
 Camera camera;
 
+Boolean end = false;
+Boolean reset = false;
+
+Boolean winState = false;
+
+MonsterShape exitShape;
+
+PImage lostBackground;
+PImage lostSquare;
+PImage lostCircle;
+PImage lostTriangle;
+
+PImage winBackgroundSquare;
+PImage winBackgroundCircle;
+PImage winBackgroundTriangle;
+PImage winSquare;
+PImage winCircle;
+PImage winTriangle;
+
 PGraphics minimapGraphics;
 
 void setup() {
@@ -27,8 +46,17 @@ void setup() {
   minimapGraphics = createGraphics(128, 128);
   
   //MonsterShape.SQUARE.lightImage = loadImage("light-square.png");
-  //MonsterShape.TRIANGLE.lightImage = loadImage("light-triangle.png");
-  //MonsterShape.CIRCLE.lightImage = loadImage("light-circle.png");
+  lostBackground = loadImage("lost-background.png");
+  lostSquare = loadImage("lost-square.png");
+  lostCircle = loadImage("lost-circle.png");
+  lostTriangle = loadImage("lost-triangle.png");
+  
+  winBackgroundSquare = loadImage("win-background-square.png");
+  winBackgroundCircle = loadImage("win-background-circle.png");
+  winBackgroundTriangle = loadImage("win-background-triangle.png");
+  winSquare = loadImage("win-square.png");
+  winCircle = loadImage("win-circle.png");
+  winTriangle = loadImage("win-triangle.png");
   {
     MonsterShape.SQUARE.lightImage = createGraphics(128,128);
     PGraphics g = MonsterShape.SQUARE.lightImage;
@@ -86,7 +114,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
-  playMusic("/media/content/Music/Metallica/Death Magnetic/11 Hate Train .mp3");
+  //playMusic("../data/old35.wav");
   
   world = new World();
   
@@ -147,6 +175,41 @@ void addLabirint() {
 
 void draw() {
   
+  if (reset) {
+    reset = false;
+    end = false;
+    setup();
+    return;
+  }
+  if (end) {
+    clear();
+    if (winState){
+      if (exitShape.equals(MonsterShape.SQUARE)){
+        image(winBackgroundSquare, 0, 0, width, height);
+        image(winSquare, width/2 - winSquare.width/2, height/2 - winSquare.height/2);
+      }
+      if (exitShape.equals(MonsterShape.CIRCLE)){
+        image(winBackgroundCircle, 0, 0, width, height);
+        image(winCircle, width/2 - winCircle.width/2, height/2 - winCircle.height/2);
+      }
+      if (exitShape.equals(MonsterShape.TRIANGLE)){
+        image(winBackgroundTriangle, 0, 0, width, height);
+        image(winTriangle, width/2 - winTriangle.width/2, height/2 - winTriangle.height/2);
+      }
+      return;
+    }
+    image(lostBackground, 0, 0, width, height);
+    if (exitShape.equals(MonsterShape.SQUARE)){
+      image(lostSquare, width/2 - lostSquare.width/2, height/2 - lostSquare.height/2);
+    }
+    if (exitShape.equals(MonsterShape.CIRCLE)){
+      image(lostCircle, width/2 - lostCircle.width/2, height/2 - lostCircle.height/2);
+    }
+    if (exitShape.equals(MonsterShape.TRIANGLE)){
+      image(lostTriangle, width/2 - lostTriangle.width/2, height/2 - lostTriangle.height/2);
+    }
+    return;
+  }
   world.updateUpdateables();
 
   clear();

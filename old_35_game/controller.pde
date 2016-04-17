@@ -39,7 +39,17 @@ void keyPressed() {
 void keyReleased() {
   int code = keyCode;
   
-  for (PlayerController pc : controllers)
+  for (PlayerController pc : controllers){
     if (pc.keyStatus.get(code) != null)
       pc.keyStatus.put(code,false);
+  }
+  
+}
+
+void mouseClicked() {
+  
+  if (end) { 
+    reset = true;
+  }
+  
 }

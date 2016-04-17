@@ -152,7 +152,10 @@ class Player extends Monster {
   };
   
   void onEaten(Monster other) {
-    throw new DeathException(this);
+    //throw new DeathException(this);
+    end = true;
+    exitShape = shape;
+    winState = false;
   }
 }
 
@@ -166,7 +169,10 @@ class WinMob extends PhysicalCircleEntity {
   @Override
   public void onHit(CollidableEntity other, float ptx, float pty, float normx, float normy) {
     if (other instanceof Player) {
-      throw new WinException((Player) other);
+      //throw new WinException((Player) other);
+      end = true;
+      exitShape = ((Player) other).shape;
+      winState = true;
     }
   };
 }

@@ -14,6 +14,8 @@ Integer objectsSum = 10;
 Integer x_offset_labirint = k/2*labirintWidth, y_offset_labirint = 100;
 Integer x_offset_walls = k*labirintWidth + x_offset_labirint + k, y_offset_walls = 100 + k/2;
 
+WinMob win;
+
 World world;
 Player player;
 Camera camera;
@@ -138,8 +140,8 @@ void addLabirint() {
   for (Integer[] light : lightsChords) {
     world.add(new Light(shapes.get(random.nextInt(3)), light[0]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[1]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[2]));
   }
-  
-  world.add(new WinMob(winPlace[0]*World.TUNNEL_WIDTH, winPlace[1]*World.TUNNEL_WIDTH));
+  win = new WinMob(winPlace[0]*World.TUNNEL_WIDTH, winPlace[1]*World.TUNNEL_WIDTH);
+  world.add(win);
   
 }
 
@@ -182,6 +184,9 @@ void draw() {
   minimapGraphics.stroke(255);
   minimapGraphics.fill(255,128,128);
   minimapGraphics.ellipse(player.x, player.y, 100,100);
+  minimapGraphics.stroke(255);
+  minimapGraphics.fill(128,255,128);
+  minimapGraphics.ellipse(win.x, win.y, 100,100);
   minimapGraphics.endDraw();
   
   image(minimapGraphics, width-128, height-128);

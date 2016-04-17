@@ -156,11 +156,10 @@ class Player extends Monster {
   }
 }
 
-class WinMob extends Mob {
+class WinMob extends PhysicalCircleEntity {
   public WinMob(float x, float y) {
-    super(MonsterShape.SQUARE, x, y, 0.);
-    vx = 0;
-    vy = 0;
+    this.x = x;
+    this.y = y;
     this.r = World.TUNNEL_WIDTH;
   }
   
@@ -170,10 +169,4 @@ class WinMob extends Mob {
       throw new WinException((Player) other);
     }
   };
-  
-  @Override
-  public void draw() {
-    
-  }
-  
 }

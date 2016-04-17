@@ -73,10 +73,10 @@ enum MonsterShape {
     CIRCLE.radius = 20;
     
     TRIANGLE.eats = CIRCLE;
-    TRIANGLE.radius = 10;
+    TRIANGLE.radius = 15;
     
     MORPHING.eats = null;
-    MORPHING.radius = 0;
+    MORPHING.radius = 20;
     
     {
       CIRCLE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
@@ -87,7 +87,7 @@ enum MonsterShape {
       }
     }
     { //<>//
-      SQUARE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][];
+      SQUARE.playerShape = new float[World.PLAYER_SHAPE_VERTICES][]; //<>// //<>//
       for (int i = 0; i < World.PLAYER_SHAPE_VERTICES; ++i) { //<>// //<>//
         float a = PI*2.*((float)i)/((float)World.PLAYER_SHAPE_VERTICES);
         float r = SH_FN_Square(a) * SQUARE.radius;
@@ -134,7 +134,7 @@ Map<MonsterShape, Runnable> simpleShapeDrawers = new HashMap();
   simpleShapeDrawers.put(MonsterShape.CIRCLE, new Runnable() {
     public void run() {
       float r = MonsterShape.CIRCLE.radius; //<>//
-      ellipse(0,0,2*r,2*r);
+      ellipse(0,0,2*r,2*r); //<>// //<>//
     } //<>// //<>//
   });
   simpleShapeDrawers.put(MonsterShape.SQUARE, new Runnable() {
@@ -194,7 +194,8 @@ class Light extends PhysicalCircleEntity implements DrawableEntity {
     translate(x,y);
     // TODO: Draw an imgae or m.b. just use blit with no matrix.
     blendMode(ADD);
-    image(targetShape.lightImage, -(targetShape.lightImage.width)/2,-(targetShape.lightImage.height)/2);
+    float r = this.r *3.;
+    image(targetShape.lightImage, -(r)/2,-(r)/2, r, r);
     blendMode(BLEND);
     //pushStyle();
     //fill(255,128,128,100);

@@ -22,7 +22,7 @@ class Mob extends Monster {
   void onHitTheLight(MonsterShape targetShape) {/*Do nothing*/};
   
   void onHitTheWall(Wall wall, float nx, float ny) {
-    println("Hit the Wall!",nx,ny);
+    //println("Hit the Wall!",nx,ny);
     
     float d = vx * nx + vy * ny;
     
@@ -42,6 +42,14 @@ class DeathException extends RuntimeException {
   Player player;
   
   DeathException(Player player) {
+    this.player = player;
+  }
+};
+
+class WinException extends RuntimeException {
+  Player player;
+  
+  WinException(Player player) {
     this.player = player;
   }
 };
@@ -102,6 +110,7 @@ class Player extends Monster {
     this.targetShape = targetShape;
     this.shape = MonsterShape.MORPHING;
     this.morph = 0.0;
+    this.r = this.shape.radius;
   };
   
   void onHitTheWall(Wall wall, float nx, float ny) {
@@ -145,4 +154,26 @@ class Player extends Monster {
   void onEaten(Monster other) {
     throw new DeathException(this);
   }
+}
+
+class WinMob extends Mob {
+  public WinMob(float x, float y) {
+    super(MonsterShape.SQUARE, x, y, 0.);
+    vx = 0;
+    vy = 0;
+    this.r = World.TUNNEL_WIDTH;
+  }
+  
+  @Override
+  public void onHit(CollidableEntity other, float ptx, float pty, float normx, float normy) {
+    if (other instanceof Player) {
+      throw new WinException((Player) other);
+    }
+  };
+  
+  @Override
+  public void draw() {
+    
+  }
+  
 }

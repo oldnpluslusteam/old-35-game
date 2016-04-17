@@ -35,7 +35,7 @@ void setup() {
     g.background(0,0,0,0);
     g.noFill();
     for (int i = 0; i < 64; ++i) {
-      g.stroke((64-i)*255/64);
+      g.stroke((64-i)*255/128);
       g.ellipse(0,0,i,i);
     }
     g.blendMode(REPLACE);
@@ -50,7 +50,7 @@ void setup() {
     g.background(0,0,0,0);
     g.noFill();
     for (float i = 0; i < 64; i += 0.8) {
-      g.stroke((64-i)*255/64);
+      g.stroke((64-i)*255/128);
       g.ellipse(0,0,i,i);
     }
     g.blendMode(REPLACE);
@@ -69,7 +69,7 @@ void setup() {
     g.background(0,0,0,0);
     g.noFill();
     for (int i = 0; i < 64; ++i) {
-      g.stroke((64-i)*255/64);
+      g.stroke((64-i)*255/128);
       g.ellipse(0,0,i,i);
     }
     g.blendMode(REPLACE);
@@ -84,6 +84,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
+  playMusic("/media/content/Music/Metallica/Death Magnetic/11 Hate Train .mp3");
   
   world = new World();
   
@@ -107,10 +108,12 @@ void addLabirint() {
   List<Integer[]> walls = generateWalls(labirint);
   
   List<Integer[]> objectsChords = new ArrayList<Integer[]>();
-  objectsChords = generateChordsForObjectInFreeSpace(100, labirint); //<>//
+  objectsChords = generateChordsForObjectInFreeSpace(0, labirint); //<>//
   
   List<Integer[]> lightsChords = new ArrayList<Integer[]>();
-  lightsChords = generateLights(labirintWidth, labirintHeight, 10, 30, 20);
+  lightsChords = generateLights(labirintWidth, labirintHeight, 30, 50, 20);
+  
+  Integer[] winPlace = getWinPlace(labirint);
   
   for (Integer[] wall : walls) { //<>//
     world.add(new Wall(wall[0], wall[1], wall[2], wall[3]));
@@ -135,6 +138,9 @@ void addLabirint() {
   for (Integer[] light : lightsChords) {
     world.add(new Light(shapes.get(random.nextInt(3)), light[0]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[1]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[2]));
   }
+  
+  world.add(new WinMob(winPlace[0]*World.TUNNEL_WIDTH, winPlace[1]*World.TUNNEL_WIDTH));
+  
 }
 
 void draw() {

@@ -24,6 +24,10 @@ void setup() {
   fullScreen();
   minimapGraphics = createGraphics(128, 128);
   
+  MonsterShape.SQUARE.lightImage = loadImage("light-square.png");
+  MonsterShape.TRIANGLE.lightImage = loadImage("light-triangle.png");
+  MonsterShape.CIRCLE.lightImage = loadImage("light-circle.png");
+  
   // TODO:
   // - uncomment
   // - insert file name

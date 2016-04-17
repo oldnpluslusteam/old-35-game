@@ -170,4 +170,10 @@ class WinMob extends Mob {
       throw new WinException((Player) other);
     }
   };
+  
+  @Override
+  public void draw() {
+    
+  }
+  
 }

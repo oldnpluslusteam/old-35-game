@@ -8,7 +8,7 @@ public final Integer VISITED = 1;
 public final Integer UNVISITED = 0;
 
 public final Integer PLAYER = 0;
-public final Integer FREE_SPACE = 1; //<>// //<>//
+public final Integer FREE_SPACE = 1;
 public final Integer NPC_PLACE = 3;
 
 
@@ -18,7 +18,7 @@ public List<Integer[]> generateWalls(Integer width, Integer height) {
   
   List<Integer[]> walls = generateWalls(labirint);
   return walls;
-} //<>//
+}
 
 public List<Integer[]> generateWalls(Integer[][] labirint) {
   List<Integer[]> walls = new ArrayList<Integer[]>();
@@ -27,10 +27,10 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
     Integer start = 0;
     Integer end = -1;
     while(start < labirint[i].length){
-      while(labirint[i].length > end + 1 && labirint[i][end+1] == WALL ) { //<>//
+      while(labirint[i].length > end + 1 && labirint[i][end+1] == WALL ) {
         end++;
       }
-      if (end - start > 1) { //<>//
+      if (end - start > 1) {
         Integer[] wall = new Integer[4];
         wall[0] = i;
         wall[1] = start;
@@ -39,7 +39,7 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
         walls.add(wall);
       }
       start = end + 2;
-      end = start; //<>//
+      end = start;
     }
   }
   
@@ -47,18 +47,18 @@ public List<Integer[]> generateWalls(Integer[][] labirint) {
     Integer start = 0;
     Integer end = -1;
     while(start < labirint.length){
-      while(labirint.length > end + 1 && labirint[end+1][i] == WALL) { //<>//
+      while(labirint.length > end + 1 && labirint[end+1][i] == WALL) {
        end++;
-      } //<>//
+      }
       if (end - start > 1) {
         Integer[] wall = new Integer[4];
         wall[0] = start;
         wall[1] = i;
         wall[2] = end;
         wall[3] = i;
-        walls.add(wall); //<>//
+        walls.add(wall);
       }
-      start = end + 2; //<>//
+      start = end + 2;
       end = start;
     }
   }
@@ -93,6 +93,7 @@ public List<Integer[]> generateChordsForObjectInFreeSpace(Integer npcSize, Integ
       continue;
     }
     temporaryLabirint[playerChords[0]][playerChords[1]] = PLAYER; 
+    mobs.add(playerChords);
     break;
   }
   

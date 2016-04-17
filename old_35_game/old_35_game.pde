@@ -7,7 +7,7 @@ List<Integer[]> walls;
 List<Integer[]> objects;
 
 Integer labirintWidth = 21;
-Integer labirintHeight = 33;
+Integer labirintHeight = 21;
 
 Integer objectsSum = 10;
 
@@ -43,24 +43,23 @@ void setup() {
   //world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
   //world.add(new Mob(MonsterShape.TRIANGLE, -100, 0, 0.5));
   //world.add(new Mob(MonsterShape.CIRCLE, 100, 100, 0));
-  
-  world.add(new Light(MonsterShape.CIRCLE, 200, 200, 0));
-  world.add(new Light(MonsterShape.SQUARE, 200, 100, 0));
-  world.add(new Light(MonsterShape.TRIANGLE, 200, 0, 0));
 }
 
 void addLabirint() {  
-  Integer[][] labirint = generateLabirintWithQuit(labirintWidth, labirintWidth);
+  Integer[][] labirint = generateLabirintWithQuit(labirintWidth, labirintHeight);
   
   Random random = new Random(new Date().getTime() + k);
   
   List<Integer[]> walls = generateWalls(labirint);
   
   List<Integer[]> objectsChords = new ArrayList<Integer[]>();
-  objectsChords = generateChordsForObjectInFreeSpace(10, labirint); //<>//
-   //<>//
+  objectsChords = generateChordsForObjectInFreeSpace(100, labirint); //<>//
+  
+  List<Integer[]> lightsChords = new ArrayList<Integer[]>();
+  lightsChords = generateLights(labirintWidth, labirintHeight, 10, 30, 20);
+  
   for (Integer[] wall : walls) { //<>//
-    world.add(new Wall(wall[0], wall[1], wall[2], wall[3])); //<>//
+    world.add(new Wall(wall[0], wall[1], wall[2], wall[3]));
   }
   
   List<MonsterShape> shapes = new ArrayList<MonsterShape>();
@@ -79,8 +78,9 @@ void addLabirint() {
     }
   }
   
-  System.out.println(objectsChords);
-  
+  for (Integer[] light : lightsChords) {
+    world.add(new Light(shapes.get(random.nextInt(3)), light[0]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[1]*World.TUNNEL_WIDTH - (random.nextInt((int)World.TUNNEL_WIDTH)), light[2]));
+  }
 }
 
 void draw() {

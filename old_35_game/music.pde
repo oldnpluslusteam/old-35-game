@@ -8,6 +8,8 @@ int audioPeakTime = millis();
 static final float AUDIO_PEAK_DECREASE_SPEED = 1;
 
 void playMusic(String file) {
+  if (ac != null)
+    ac.stop();
   ac = new AudioContext();
   
   String audioFileName = new File(file).getAbsolutePath();

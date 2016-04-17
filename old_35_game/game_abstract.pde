@@ -23,6 +23,7 @@ class World {
   List<CollidableEntity> ces = new ArrayList();
   List<UpdatebleEntity> ues = new LinkedList();
   List<DrawableEntity> des = new LinkedList();
+  Set<Object> toKill = new HashSet();
   int cTime = millis();
   
   void add(Object ent) {
@@ -32,6 +33,10 @@ class World {
       ces.add((CollidableEntity)ent);
     if (ent instanceof UpdatebleEntity)
       ues.add((UpdatebleEntity)ent);
+  }
+  
+  void kill(Object ent) {
+    toKill.add(ent);
   }
   
   void collideCollidables() {
@@ -45,6 +50,12 @@ class World {
     int nTime = millis();
     float delta = 0.001 * (float)(nTime - cTime);
     cTime = nTime;
+    
+    for (Object kent : toKill) {
+      ces.remove(kent);
+      ues.remove(kent);
+      des.remove(kent);
+    }
 
     for (UpdatebleEntity e : ues)
       e.update(delta);

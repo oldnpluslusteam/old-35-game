@@ -12,8 +12,8 @@ class Camera {
     rotate(-player.camA);
     {
       float peak = getAudioPeak()*.3;
-      scale(2.+peak*(1.+cos(sa)), 2.+peak*(1.+sin(sa)));
-      //scale(0.2/*+peak*(1.+cos(sa))*/, 0.2/*+peak*(1.+sin(sa))*/);
+      //scale(2.+peak*(1.+cos(sa)), 2.+peak*(1.+sin(sa)));
+      scale(0.2/*+peak*(1.+cos(sa))*/, 0.2/*+peak*(1.+sin(sa))*/);
       sa += peak*1.5;
     }
     translate(-player.camX, -player.camY);

@@ -89,7 +89,7 @@ public List<Integer[]> generateChordsForObjectInFreeSpace(Integer npcSize, Integ
   while (true) {
     playerChords[0] = random.nextInt(temporaryLabirint.length);
     playerChords[1] = random.nextInt(temporaryLabirint[0].length);
-    if (temporaryLabirint[playerChords[0]][playerChords[1]] != FREE_SPACE) {
+    if ((temporaryLabirint[playerChords[0]][playerChords[1]] != FREE_SPACE)) {
       continue;
     }
     temporaryLabirint[playerChords[0]][playerChords[1]] = PLAYER; 
@@ -100,34 +100,49 @@ public List<Integer[]> generateChordsForObjectInFreeSpace(Integer npcSize, Integ
   return mobs;
 }
 
+public List<Integer[]> generateLights(Integer width, Integer height, Integer minR, Integer maxR, Integer sum) {
+  Random random = new Random(new Date().getTime() + sum*maxR*minR);//создали рандомизатор
+  List<Integer[]> lights = new ArrayList<Integer[]>();
+  
+  for (int i = 0; i < sum; i++) {
+    Integer[] light = new Integer[3];
+    light[0] = random.nextInt(width);
+    light[1] = random.nextInt(height);
+    light[2] = minR + random.nextInt(maxR - minR);
+    lights.add(light);
+  }
+  
+  return lights;
+}
+
 public Integer[][] generateLabirintWithQuit(Integer width, Integer height) {
   Integer[][] labirint = generateLabirint(width, height);
   
-  //Random random = new Random(new Date().getTime());//создали рандомизатор
+  Random random = new Random(new Date().getTime());//создали рандомизатор
   
-  //Integer[] quitChords = new Integer[2];
+  Integer[] quitChords = new Integer[2];
   
-  //Integer edgeChord = random.nextInt(2);
+  Integer edgeChord = random.nextInt(2);
   
-  //Integer otherChord = 1 - edgeChord;
+  Integer otherChord = 1 - edgeChord;
   
-  //quitChords[edgeChord] = random.nextInt(2) == 1 ? 0 : (edgeChord == 1 ? height : width);
+  quitChords[edgeChord] = random.nextInt(2) == 1 ? 0 : (edgeChord == 1 ? height : width);
   
-  //Integer sum = otherChord == 0 ? width : height ;
+  Integer sum = otherChord == 0 ? width-1 : height-1 ;
   
-  //while (true) {
-  //  quitChords[otherChord]  = random.nextInt(sum);
-  //  if (quitChords[otherChord] % 2 != 0 && quitChords[otherChord] > 0 && quitChords[otherChord] < sum) {
-  //    break;
-  //  }
-  //}
+  while (true) {
+   quitChords[otherChord]  = random.nextInt(sum);
+   if (quitChords[otherChord] % 2 != 0 && quitChords[otherChord] > 0 && quitChords[otherChord] < sum) {
+     break;
+   }
+  }
   
-  //System.out.println(quitChords[0]);
-  //System.out.println(quitChords[1]);
+  System.out.println(quitChords[0]);
+  System.out.println(quitChords[1]);
   
-  //labirint[quitChords[0]][quitChords[1]] = FREE_SPACE;
+  labirint[quitChords[0]][quitChords[1]] = FREE_SPACE;
   
-  labirint[0][1] = FREE_SPACE;
+  //labirint[0][1] = FREE_SPACE;
   
   return labirint;
 }

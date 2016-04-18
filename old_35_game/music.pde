@@ -5,18 +5,26 @@ PeakDetector od;
 float audioPeak = 0.0;
 int audioPeakTime = millis();
 
+SamplePlayer splayer;
+
 static final float AUDIO_PEAK_DECREASE_SPEED = 1;
 
 void playMusic(String file) {
-  if (ac != null)
-    ac.stop();
+  if (ac != null) {
+    splayer.start(0);
+    return;
+  }
   ac = new AudioContext();
   
-  String audioFileName = new File(file).getAbsolutePath();
-  Sample sample = SampleManager.sample(audioFileName);
-  SamplePlayer player = new SamplePlayer(ac, sample);
+  //String audioFileName = new File(file).getAbsolutePath();
+  Sample sample = SampleManager.sample(file);
+  splayer = new SamplePlayer(ac, sample);
+  splayer.setKillOnEnd(false);
+  splayer.setLoopStart(new Static(ac, 0));
+  splayer.setLoopEnd(new Static(ac, (float)sample.getLength()));
+  splayer.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
   Gain g = new Gain(ac, 2, 0.2);
-  g.addInput(player);
+  g.addInput(splayer);
   ac.out.addInput(g);
   
   ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);

@@ -114,7 +114,7 @@ void setup() {
   // - run
   // - ENJOY MADNESS
   //playMusic("<fileName>.mp3");
-  playMusic("./data/ld35.wav");
+  playMusic("./data/ld35.mp3");
   
   world = new World();
   

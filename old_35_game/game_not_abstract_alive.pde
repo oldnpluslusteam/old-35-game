@@ -1,6 +1,6 @@
 
 class Mob extends Monster {
-  float vx, vy;
+  float vx, vy, ca = 0.;
   
   Mob(MonsterShape shape, float x, float y, float a) {
     super(shape,x,y,shape.radius,a);
@@ -13,10 +13,25 @@ class Mob extends Monster {
   public void update(float dt) {
     x += vx * dt;
     y += vy * dt;
+    ca += dt * (1.+getAudioPeak()) * 10.;
   };
 
   void drawShape() {
+    pushStyle();
+    if (this.shape.eats == player.shape) {
+      float cca = .5+.5*cos(ca*2.);
+      float sca = .5+.5*sin(ca*2.);
+      stroke(128+128.*cca,0,0);
+      fill(128+128.*sca,64,64);
+    }
+    if (this.shape == player.shape.eats) {
+      float cca = .5+.5*cos(ca);
+      float sca = .5+.5*sin(ca);
+      stroke(0,128+128.*cca,0);
+      fill(128,128+128.*sca,128);
+    }
     simpleShapeDrawers.get(this.shape).run();
+    popStyle();
   };
   
   void onHitTheLight(MonsterShape targetShape) {/*Do nothing*/};
